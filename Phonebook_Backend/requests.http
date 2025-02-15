@@ -1,11 +1,13 @@
-// DELETE http://localhost:3001/api/persons/3
-
-POST http://localhost:3001/api/persons
+POST https://fullstack-part3-i509.onrender.com/api/persons
 Content-Type: application/json
 
 {
-    "name": "VSCode Tester",
-    "number": "987-6543"
+    "name": "New Moeny",
+    "number": "123-4567"
 }
 
 ###
+GET https://fullstack-part3-i509.onrender.com/api/persons
+
+###
+DELETE https://fullstack-part3-i509.onrender.com/api/persons/2
