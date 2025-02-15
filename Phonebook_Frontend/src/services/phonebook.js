@@ -1,6 +1,6 @@
 // Phonebook/src/services/phonebook.js
 import axios from 'axios';
-const baseUrl = '/api/persons';
+const baseUrl = 'https://fullstack-part3-i509.onrender.com/api/persons';
 
 const getAll = () => {
   return axios.get(baseUrl);
