@@ -58,18 +58,18 @@ app.get('/api/persons/:id', (req, res) => {
 
 
 // Route to delete a single person by ID
-app.delete('/api/persons/:id', (req, res) => {
-    const id = req.params.id;
-    const initialLength = persons.length;
-    // Filter the persons array to remove the person with the matching id
-    persons = persons.filter(person => person.id !== id);
-
-    if (persons.length < initialLength) {
-        res.status(204).end(); // Send a 204 No Content response if the deletion was successful
-    } else {
-        res.status(404).json({ error: 'Person not found' }); // Send a 404 Not Found if no person with this id existed
-    }
-});
+app.delete('/api/persons/:id', (req, res, next) => {
+    Person.findByIdAndDelete(req.params.id)
+      .then(result => {
+        if (result) {
+          res.status(204).end();  // Successfully deleted
+        } else {
+          res.status(404).json({ error: 'Person not found' });
+        }
+      })
+      .catch(error => next(error));  // Pass errors to error handler
+  });
+  
 
 
 // Route to add a new person
@@ -86,7 +86,14 @@ app.post('/api/persons', async (req, res) => {
     }
   
     const person = new Person({ name, number });
-    person.save().then(savedPerson => res.json(savedPerson));
+    person.save()
+      .then(savedPerson => {
+        res.json(savedPerson);
+      })
+      .catch(error => {
+        console.error('Error saving person to the DB:', error);
+        res.status(500).json({ error: 'Failed to save person to the database' });
+      });
   });
   
 
@@ -100,6 +107,18 @@ app.get('/', (req, res) => {
         <li>GET /info - Provides information on the number of people in the phonebook and the current server time</li>
     </ul>`);
 });
+
+app.use((error, req, res, next) => {
+    console.error(error.message);
+  
+    if (error.name === 'CastError') {
+      return res.status(400).send({ error: 'malformatted id' });
+    }
+  
+    res.status(500).send({ error: 'internal server error' });
+  });
+  
+
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
