@@ -4,6 +4,8 @@ const morgan = require('morgan');
 const app = express();
 const cors = require('cors');
 app.use(cors());
+// Serve static frontend
+app.use(express.static('dist'));
 
 // Custom Morgan token for logging request bodies
 morgan.token('body', (req) => {
