@@ -1,4 +1,4 @@
-// phonebook-backend/index.js
+// Phonebook_Backend/index.js
 const express = require('express');
 const morgan = require('morgan');  
 const app = express();
@@ -83,6 +83,17 @@ app.post('/api/persons', (req, res) => {
 
     persons.push(newPerson);
     res.status(201).json(newPerson);
+});
+
+app.get('/', (req, res) => {
+    res.send(`Phonebook API is running. Here's how you can interact with the API:
+    <ul>
+        <li>GET /api/persons - Retrieves all persons</li>
+        <li>GET /api/persons/:id - Retrieves a person by ID</li>
+        <li>POST /api/persons - Adds a new person (provide name and number in the request body)</li>
+        <li>DELETE /api/persons/:id - Deletes a person by ID</li>
+        <li>GET /info - Provides information on the number of people in the phonebook and the current server time</li>
+    </ul>`);
 });
 
 const PORT = process.env.PORT || 3001;
