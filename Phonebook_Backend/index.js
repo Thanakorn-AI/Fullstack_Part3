@@ -109,6 +109,29 @@ app.get('/', (req, res) => {
     </ul>`);
 });
 
+
+app.put('/api/persons/:id', async (req, res, next) => {
+  const { name, number } = req.body;
+
+  if (!name || !number) {
+    return res.status(400).json({ error: 'Name and number are required' });
+  }
+
+  const updatedPerson = { name, number };
+
+  try {
+    const person = await Person.findByIdAndUpdate(req.params.id, updatedPerson, { new: true, runValidators: true, context: 'query' });
+    if (person) {
+      res.json(person);
+    } else {
+      res.status(404).json({ error: 'Person not found' });
+    }
+  } catch (error) {
+    next(error);  // Forward any errors to the error handler
+  }
+});
+
+
 app.use((error, req, res, next) => {
     console.error(error.message);
   
