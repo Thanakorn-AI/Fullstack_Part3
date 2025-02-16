@@ -1,38 +1,47 @@
-import js from '@eslint/js'
+// Phonebook_Frontend/eslint.config.js
 import globals from 'globals'
+import js from '@eslint/js'
 import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
 
 export default [
-  { ignores: ['dist'] },
+  js.configs.recommended,
   {
+    plugins: {
+      react
+    },
     files: ['**/*.{js,jsx}'],
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+      sourceType: 'module',             // Use ES modules
+      ecmaVersion: 'latest',            // Latest ECMAScript version
+      globals: {
+        ...globals.browser,             // Browser global variables like window, document
       },
-    },
-    settings: { react: { version: '18.3' } },
-    plugins: {
-      react,
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true                     // Enable JSX
+        }
+      }
     },
     rules: {
-      ...js.configs.recommended.rules,
-      ...react.configs.recommended.rules,
-      ...react.configs['jsx-runtime'].rules,
-      ...reactHooks.configs.recommended.rules,
-      'react/jsx-no-target-blank': 'off',
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      'eqeqeq': 'error',                        // Require === instead of ==
+      'no-trailing-spaces': 'error',            // No spaces at end of lines
+      'object-curly-spacing': ['error', 'always'], // Require spaces inside curly braces
+      'arrow-spacing': ['error', { 'before': true, 'after': true }], // Require spaces around arrow functions
+      'no-console': 'off',                      // Allow console.log statements
+      'indent': ['error', 2],                   // Enforce 2-space indentation
+      'quotes': ['error', 'single'],            // Use single quotes
+      'semi': ['error', 'never'],               // No semicolons
+      'no-unused-vars': 'off',                 // Warn about unused variables
+      'react/prop-types': 'off',                // Disable prop-types for now (if you're not using them)
+      'react/react-in-jsx-scope': 'off'         // Not required in modern React with new JSX transform
     },
+    settings: {
+      react: {
+        version: 'detect'  // Automatically detect the React version
+      }
+    }
   },
+  {
+    ignores: ['node_modules/**', 'dist/**', 'build/**']
+  }
 ]

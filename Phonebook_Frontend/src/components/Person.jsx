@@ -1,5 +1,5 @@
 // Phonebook/src/components/Person.jsx
-import React from 'react';
+import React from 'react'
 
 const Person = ({ person, onDelete }) => {
   return (
@@ -7,7 +7,7 @@ const Person = ({ person, onDelete }) => {
       {person.name} {person.number}
       <button onClick={() => onDelete(person.id, person.name)}>Delete</button>
     </div>
-  );
-};
+  )
+}
 
-export default Person;
+export default Person
