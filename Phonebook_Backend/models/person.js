@@ -22,8 +22,18 @@ mongoose.connect(url)
       minLength: [3, 'You must enter at least three characters for a name'],  // Custom message
       required: true
     },
-    number: String
+    number: {
+      type: String,
+      validate: {
+        validator: function(v) {
+          return /^(\d{2,3})-(\d+)$/.test(v) && v.length >= 8;
+        },
+        message: props => `${props.value} is not a valid phone number! It should have 2-3 digits, a hyphen, and remaining digits, with a total length of at least 8.`
+      },
+      required: [true, 'Phone number is required']
+    }
   });
+
 
 // Transform _id -> id, remove __v
 personSchema.set('toJSON', {
