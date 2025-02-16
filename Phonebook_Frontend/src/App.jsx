@@ -1,33 +1,12 @@
 // Phonebook_Frontend/src/App.jsx
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import phonebookService from './services/phonebook'
-import Filter from './components/Filter'
-import Persons from './components/Persons'
-import PersonForm from './components/PersonForm'
+// eslint-disable-next-line no-unused-vars
+import Notification from './components/Notification'
+// import Filter from './components/Filter'
+// import Persons from './components/Persons'
+// import PersonForm from './components/PersonForm'
 
-// Notification component with inline styling
-const Notification = ({ message, isError }) => {
-  if (message === null) {
-    return null
-  }
-
-  const notificationStyle = {
-    color: isError ? 'red' : 'green',
-    background: 'lightgrey',
-    fontSize: '20px',
-    borderStyle: 'solid',
-    borderRadius: '5px',
-    padding: '10px',
-    marginBottom: '10px',
-    borderColor: isError ? 'red' : 'green'
-  }
-
-  return (
-    <div style={notificationStyle}>
-      {message}
-    </div>
-  )
-}
 
 const App = () => {
   const [persons, setPersons] = useState([])

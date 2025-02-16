@@ -31,7 +31,7 @@ export default [
       'indent': ['error', 2],                   // Enforce 2-space indentation
       'quotes': ['error', 'single'],            // Use single quotes
       'semi': ['error', 'never'],               // No semicolons
-      'no-unused-vars': 'off',                 // Warn about unused variables
+      'no-unused-vars': 'warn',                 // Warn about unused variables
       'react/prop-types': 'off',                // Disable prop-types for now (if you're not using them)
       'react/react-in-jsx-scope': 'off'         // Not required in modern React with new JSX transform
     },

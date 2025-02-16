@@ -1,5 +1,4 @@
 // Phonebook/src/components/Persons.jsx
-import Person from './Person'
 
 const Persons = ({ persons, onDelete }) => {
   return (
