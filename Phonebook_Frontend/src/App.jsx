@@ -1,4 +1,4 @@
-// Phonebook/src/App.jsx
+// Phonebook_Frontend/src/App.jsx
 import React, { useState, useEffect } from 'react';
 import phonebookService from './services/phonebook';
 import Filter from './components/Filter';
