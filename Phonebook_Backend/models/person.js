@@ -16,10 +16,14 @@ mongoose.connect(url)
     console.log('Error connecting to MongoDB:', error.message);
   });
 
-const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
-});
+  const personSchema = new mongoose.Schema({
+    name: {
+      type: String,
+      minLength: [3, 'You must enter at least three characters for a name'],  // Custom message
+      required: true
+    },
+    number: String
+  });
 
 // Transform _id -> id, remove __v
 personSchema.set('toJSON', {

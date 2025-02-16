@@ -62,7 +62,7 @@ const App = () => {
     event.preventDefault();
     const personObject = { name: newName, number: newNumber };
     const existingPerson = persons.find(p => p.name.toLowerCase() === newName.toLowerCase());
-
+  
     if (existingPerson) {
       if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
         phonebookService
@@ -71,19 +71,15 @@ const App = () => {
             setPersons(persons.map(p => p.id === existingPerson.id ? response.data : p));
             setNotification(`Updated ${newName}'s number`);
             setIsError(false);
-            setTimeout(() => {
-              setNotification(null);
-            }, 5000);
+            setTimeout(() => setNotification(null), 5000);
             setNewName('');
             setNewNumber('');
           })
           .catch(error => {
             console.error('Error updating person:', error);
-            setNotification(`Failed to update ${newName}. It may have been removed.`);
+            setNotification(error.response.data.error || `Failed to update ${newName}.`);
             setIsError(true);
-            setTimeout(() => {
-              setNotification(null);
-            }, 5000);
+            setTimeout(() => setNotification(null), 5000);
           });
       }
     } else {
@@ -93,23 +89,19 @@ const App = () => {
           setPersons(persons.concat(response.data));
           setNotification(`Added ${newName} to the Phonebook`);
           setIsError(false);
-          setTimeout(() => {
-            setNotification(null);
-          }, 5000);
+          setTimeout(() => setNotification(null), 5000);
           setNewName('');
           setNewNumber('');
         })
         .catch(error => {
           console.error('Error adding person:', error);
-          setNotification(`Error adding ${newName} to the phonebook.`);
+          setNotification(error.response.data.error || `Error adding ${newName} to the phonebook.`);
           setIsError(true);
-          setTimeout(() => {
-            setNotification(null);
-          }, 5000);
+          setTimeout(() => setNotification(null), 5000);
         });
     }
   };
-
+  
   const deletePerson = (id, name) => {
     if (window.confirm(`Delete ${name}?`)) {
       phonebookService

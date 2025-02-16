@@ -80,28 +80,28 @@ app.delete('/api/persons/:id', (req, res, next) => {
 
 
 // Route to add a new person
-app.post('/api/persons', async (req, res) => {
-    const { name, number } = req.body;
-  
-    if (!name || !number) {
-      return res.status(400).json({ error: 'The name or number is missing' });
-    }
-  
+app.post('/api/persons', async (req, res, next) => {
+  const { name, number } = req.body;
+
+  if (!name || !number) {
+    return res.status(400).json({ error: 'The name or number is missing' });
+  }
+
+  try {
     const existingPerson = await Person.findOne({ name });
     if (existingPerson) {
       return res.status(400).json({ error: 'Name must be unique' });
     }
-  
+
     const person = new Person({ name, number });
-    person.save()
-      .then(savedPerson => {
-        res.json(savedPerson);
-      })
-      .catch(error => {
-        console.error('Error saving person to the DB:', error);
-        res.status(500).json({ error: 'Failed to save person to the database' });
-      });
-  });
+    const savedPerson = await person.save();
+    res.json(savedPerson);
+
+  } catch (error) {
+    next(error);  // Pass errors to the error handler middleware
+  }
+});
+
   
 
 app.get('/', (req, res) => {
@@ -143,8 +143,10 @@ app.use((error, req, res, next) => {
   
     if (error.name === 'CastError') {
       return res.status(400).send({ error: 'malformatted id' });
+    } else if (error.name === 'ValidationError') {
+      return res.status(400).json({ error: error.message })
     }
-  
+    
     res.status(500).send({ error: 'internal server error' });
   });
   
