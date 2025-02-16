@@ -1,4 +1,4 @@
-// Phonebook/src/services/phonebook.js
+// Phonebook_Frontend/src/services/phonebook.js
 import axios from 'axios';
 // const baseUrl = 'https://fullstack-part3-i509.onrender.com/api/persons'; // for production
 const baseUrl = '/api/persons'; // for local development

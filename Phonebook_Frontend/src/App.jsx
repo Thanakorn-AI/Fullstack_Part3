@@ -4,7 +4,6 @@ import phonebookService from './services/phonebook';
 import Filter from './components/Filter';
 import Persons from './components/Persons';
 import PersonForm from './components/PersonForm';
-import axios from 'axios';
 
 // Notification component with inline styling
 const Notification = ({ message, isError }) => {
@@ -39,7 +38,7 @@ const App = () => {
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    axios.get('/api/persons')
+    phonebookService.getAll()
       .then(response => {
         setPersons(response.data);
       })

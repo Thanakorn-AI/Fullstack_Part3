@@ -35,26 +35,32 @@ app.get('/api/persons', (request, response) => {
   });
   
 
-  app.get('/info', async (req, res) => {
+  app.get('/info', async (req, res, next) => {
     try {
-      const count = await Person.countDocuments(); // Count entries in the database
+      const count = await Person.countDocuments();
       const date = new Date();
       res.send(`Phonebook has info for ${count} people<br/>${date}`);
     } catch (error) {
-      res.status(500).send('Error fetching phonebook info');
+      next(error);
     }
   });
   
+  
 
 // Route to get a single person by ID
-app.get('/api/persons/:id', (req, res) => {
-    Person.findById(req.params.id)
-      .then(person => {
-        if (person) res.json(person);
-        else res.status(404).send({ error: 'Person not found' });
-      })
-      .catch(error => res.status(400).send({ error: 'Malformed ID' }));
-  });
+app.get('/api/persons/:id', async (req, res, next) => {
+  try {
+    const person = await Person.findById(req.params.id);
+    if (person) {
+      res.json(person);
+    } else {
+      res.status(404).send({ error: 'Person not found' });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
   
 
 
